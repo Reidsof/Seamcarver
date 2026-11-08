@@ -33,3 +33,63 @@ function energy(img, i, j) {
     }
     return Math.sqrt(deltaXSquared + deltaYSquared);
 }
+
+function findVerticalSeam(img) {
+    const { width: w, height: h } = img;
+    const energyAmt = new Float64Array(w * h);
+    const positionOfPixel = new Int32Array(w * h);
+
+    for (let x = 0; x < w; x++) energyAmt[x] = energy(img, x, 0);
+
+    for (let y = 1; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+            let bestPixel = x, bestEnergyAmt = energyAmt[(y-1) * w + x];
+            if (x > 0 && energyAmt[(y - 1) * w + x - 1] < bestEnergyAmt) {
+                bestPixel = x - 1; 
+                bestEnergyAmt = energyAmt[(y - 1) * w + x - 1];
+            }
+            if (x < w - 1 && energyAmt[(y - 1) * w + x + 1] < bestEnergyAmt) {
+                bestPixel = x + 1;
+                bestEnergyAmt = energyAmt[(y - 1) * w + x + 1];
+            }
+            energyAmt[y * w + x] = energy(img, x, y) + bestEnergyAmt;
+            positionOfPixel[y * w + x] = bestPixel;
+        }
+    }
+
+    let x = 0;
+    for (let i = 1; i < w; i++) { if (energyAmt[(h - 1) * w + i] < energyAmt[(h - 1) * w + x]) x = i; }
+
+    const seam = new Array(h);
+    for ( let y = h - 1; y >= 0; y-- ) {
+        seam[y] = x;
+        x = positionOfPixel[y * w + x];
+    }
+    return seam; 
+}
+
+function removeVerticalSeam(img, seam) {
+    const {width: w, height: h, data} = img;
+    const out = new Uint8ClampedArray((w - 1) * h * 4);
+
+    for (let y = 0; y < h; y++) {
+        let o = y * (w - 1) * 4;
+        for (let x = 0; x < w; x++) {
+            if (x === seam[y]) continue;
+            const i = (y * w + x) * 4;
+            out[o++] = data[i];
+            out[o++] = data[i + 1];
+            out[o++] = data[i + 2];
+            out[o++] = data[i + 3];
+
+        }
+    }
+    return { width: w - 1, height: h, data: out };
+}
+
+document.getElementById('carve').addEventListener('click', () => {
+    if (!img || img.width <= 1) return; // if no image is inputed or img width is less than 1, do nothing
+    img = removeVerticalSeam(img, findVerticalSeam(img));
+    draw(); // update the image
+});
+
