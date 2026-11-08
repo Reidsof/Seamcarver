@@ -176,22 +176,11 @@ async function carveHorizontalSeams(num, delay=60) {
     }
 }
 
-document.getElementById('carveOneVertSeam').addEventListener('click', () => {
-    if (!img || img.width <= 1) return; // if no image is inputed or img width is less than 1, do nothing
-    carveVerticalSeams(1, 400);
-});
-
 document.getElementById('vertCarveXTimes').addEventListener('click', () => {
     if (!img || img.width <= 1) return;
     const num = parseInt(document.getElementById('numberVertSeams').value, 10);
     if (!(num > 0)) return;
     carveVerticalSeams(num);
-});
-
-document.getElementById('carveOneHorizontalSeam').addEventListener('click', () => {
-    if (!img || img.width <= 1) return; // if no image is inputed or img width is less than 1, do nothing
-    img = removeHorizontalSeam(img, findHorizontalSeam(img));
-    draw(); // update the image
 });
 
 document.getElementById('horizontalCarveXTimes').addEventListener('click', () => {

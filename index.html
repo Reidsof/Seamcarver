@@ -8,37 +8,94 @@
 
         <title>Brooke's Seamcarver</title>
         <style>
-            body { font-family: 'Antic Slab', serif; text-align: center; }
+            body { 
+                font-family: 'Antic Slab', serif; text-align: center;
+                background-color: #272937; 
+            }
+            h1 {
+                text-align: center;
+            }
+
+            h1, h2, h3, p, label {
+                font-weight: bold;
+                color: #C7DDF3;
+            }
+
+            button {
+                background: #3815F5;
+                color: #C7DDF3;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+
+            .panel {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 16px;
+                width: fit-content;
+                max-width: 90%;
+                margin: 16px auto;
+                padding: 16px 24px;
+                border-radius: 20px;
+                background: slateblue;
+            }
+
+            .panel h2 {
+                margin: 0;
+            }
+
+            .panel_inner {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 12px 16px;
+                border-radius: 14px;
+                background: rgb(48, 43, 83);
+            }
+
+            #inner_rounded_box {
+                width: 350px;
+                height: 80px;
+                border-radius: 10%;
+                background: rgb(48, 43, 83);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
         </style>
     </head>
     <body>
-        <h1>SEAMCARVER</h1>
+        <h1>BROOKE'S SEAMCARVER</h1>
+
+        <p>Seamcarver is a tool which takes in an image's individual pixels and computes its energy. 
+            It uses energy to determine which pixels are more important and deletes the lesser important pixels. 
+            Energy is computed by comparing a pixel's color to the average of it's surrounding pixels. 
+            It takes a row or column of this pixels across the image map, otherwise known as a seam.</p>
         
+        <h3>Go ahead and upload a file and try removing seams!</h3>
         <input type="file" id="file" accept="image/*">
-        <div>
-            <p>____________________________________</p> 
+        <div class="panel">
             <h2>Vertical Seam Carver</h2>
-            <button id="carveOneVertSeam">Remove 1 vertical seam</button>
+            <div class="panel_inner">
+                <label for="numberVertSeams">Number of vertical seams to remove:</label>
+                
+                <input type="number" id="numberVertSeams" name="numberVertSeams" value="1" min="1">
+                <button id="vertCarveXTimes">Remove vertical seams</button>
+                
+            </div>
         </div>
-        <div>
-            <label for="numberVertSeams">Number of vertical seams to remove:</label>
-            <br>
-            <input type="number" id="numberVertSeams" name="numberVertSeams" value="1" min="1">
-            <button id="vertCarveXTimes">Remove vertical seams</button>
-            <p>____________________________________</p>
-            <br>
-        </div>
-        <div>
-            <p>____________________________________</p> 
+        <div class="panel">
             <h2>Horizontal Seam Carver</h2>
-            <button id="carveOneHorizontalSeam">Remove 1 horizontal seam</button>
-        </div>
-        <div>
-            <label for="numberHorizontalSeams">Number of horizontal seams to remove:</label>
-            <br>
-            <input type="number" id="numberHorizontalSeams" name="numberHorizontalSeams" value="1" min="1">
-            <button id="horizontalCarveXTimes">Remove horizontal seams</button>   
-            <p>____________________________________</p> 
+            <div class="panel_inner">
+                <label for="numberHorizontalSeams">Number of horizontal seams to remove:</label>
+                <input type="number" id="numberHorizontalSeams" name="numberHorizontalSeams" value="1" min="1">
+                <button id="horizontalCarveXTimes">Remove horizontal seams</button>   
+            </div>
         </div>
         <div>
             <br>
